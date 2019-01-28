@@ -63,7 +63,6 @@ ruuvi_endpoint_status_t app_endpoint_ac_encode(uint8_t* const buffer,
                       data->voltage,
                       invalid);
 
-  encode_value(&(buffer[APP_ENDPOINT_AC_OFFSET_SEQUENCE_COUNTER_MSB]),
-                      data->sequence,
-                      invalid);
+  buffer[APP_ENDPOINT_AC_OFFSET_SEQUENCE_COUNTER_MSB] = (data->sequence >> 8) & 0xFF;
+  buffer[APP_ENDPOINT_AC_OFFSET_SEQUENCE_COUNTER_LSB] = (data->sequence >> 0) & 0xFF;
 }
