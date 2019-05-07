@@ -20,7 +20,7 @@
 
 #define APP_ENDPOINT_AC_DESTINATION                 0xAC
 #define APP_ENDPOINT_AC_VERSION                     0
-#define APP_ENDPOINT_AC_DATA_LENGTH                 23
+#define APP_ENDPOINT_AC_DATA_LENGTH                 24
 
 #define APP_ENDPOINT_AC_OFFSET_HEADER               0
 #define APP_ENDPOINT_AC_OFFSET_VERSION              1
