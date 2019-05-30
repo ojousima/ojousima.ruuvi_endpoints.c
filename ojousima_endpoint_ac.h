@@ -19,7 +19,6 @@
  */
 
 #define APP_ENDPOINT_AC_DESTINATION                 0xAC
-#define APP_ENDPOINT_AC_VERSION                     0
 #define APP_ENDPOINT_AC_DATA_LENGTH                 24
 
 #define APP_ENDPOINT_AC_OFFSET_HEADER               0
@@ -44,6 +43,7 @@
 #define APP_ENDPOINT_AC_OFFSET_DEV_Z_LSB            19
 #define APP_ENDPOINT_AC_OFFSET_RADIO_MSB            20
 #define APP_ENDPOINT_AC_OFFSET_RADIO_LSB            21
+#define APP_ENDPOINT_AC_V1_OFFSET_TEMPERATURE_MSB   21
 #define APP_ENDPOINT_AC_OFFSET_SEQUENCE_COUNTER_MSB 22
 #define APP_ENDPOINT_AC_OFFSET_SEQUENCE_COUNTER_LSB 23
 
@@ -58,11 +58,12 @@ typedef struct{
   float rms[3];
   float dev[3];
   float voltage;
+  float temperature;
   uint16_t sequence;
 }app_endpoint_ac_data_t;
 
 /**
- * @brief Encode given data to given buffer in app format AC.
+ * @brief Encode given data to given buffer in app format AC Version 0.
  *
  * @param[out] buffer: uint8_t array with length of 24 bytes.
  * @param[in]  data: Struct containing all necessary information for
@@ -70,9 +71,24 @@ typedef struct{
  * @param[in]  invalid: A float which signals that given data point is invalid.
  * @return @c RUUVI_ENDPOINT_SUCCESS on success. @c RUUVI_ENDPOINT_ERROR_NULL if null parameter was given.
  */
-ruuvi_endpoint_status_t app_endpoint_ac_encode(uint8_t* const buffer,
-                                               const app_endpoint_ac_data_t* data,
-                                               const float invalid);
+ruuvi_endpoint_status_t app_endpoint_ac_encode_v0(uint8_t* const buffer,
+                                                  const app_endpoint_ac_data_t* data,
+                                                  const float invalid);
+
+/**
+ * @brief Encode given data to given buffer in app format AC Version 1.
+ * Version 1 splits the 2-byte voltage of version 0 into 1-byte voltage of 8 mV resolution in range 1600 - 3.6 V
+ * and puts 1 C resolution signed int of temperature into second byte.
+ *
+ * @param[out] buffer: uint8_t array with length of 24 bytes.
+ * @param[in]  data: Struct containing all necessary information for
+ *                   encoding the data into buffer
+ * @param[in]  invalid: A float which signals that given data point is invalid.
+ * @return @c RUUVI_ENDPOINT_SUCCESS on success. @c RUUVI_ENDPOINT_ERROR_NULL if null parameter was given.
+ */
+ruuvi_endpoint_status_t app_endpoint_ac_encode_v1(uint8_t* const buffer,
+                                                  const app_endpoint_ac_data_t* data,
+                                                  const float invalid);
 
 
 /** @} */ // End of group analysis

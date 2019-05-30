@@ -19,15 +19,15 @@ static void encode_value(uint8_t* const target, const float value, const float i
 }
 
 
-ruuvi_endpoint_status_t app_endpoint_ac_encode(uint8_t* const buffer,
-                                               const app_endpoint_ac_data_t* data,
-                                               const float invalid)
+ruuvi_endpoint_status_t app_endpoint_ac_encode_v0(uint8_t* const buffer,
+                                                  const app_endpoint_ac_data_t* data,
+                                                  const float invalid)
 {
 
   if(NULL == buffer || NULL == data) { return RUUVI_ENDPOINT_ERROR_NULL; }
   
   buffer[APP_ENDPOINT_AC_OFFSET_HEADER]  = APP_ENDPOINT_AC_DESTINATION;
-  buffer[APP_ENDPOINT_AC_OFFSET_VERSION] = APP_ENDPOINT_AC_VERSION;
+  buffer[APP_ENDPOINT_AC_OFFSET_VERSION] = 0;
 
   encode_value(&(buffer[APP_ENDPOINT_AC_OFFSET_P2P_X_MSB]),
                       data->p2p[APP_ENDPOINT_AC_X_INDEX],
@@ -65,4 +65,78 @@ ruuvi_endpoint_status_t app_endpoint_ac_encode(uint8_t* const buffer,
 
   buffer[APP_ENDPOINT_AC_OFFSET_SEQUENCE_COUNTER_MSB] = data->sequence >> 8;
   buffer[APP_ENDPOINT_AC_OFFSET_SEQUENCE_COUNTER_LSB] = data->sequence & 0xFF;
+
+  return RUUVI_DRIVER_SUCCESS;
+}
+
+ruuvi_endpoint_status_t app_endpoint_ac_encode_v1(uint8_t* const buffer,
+                                                  const app_endpoint_ac_data_t* data,
+                                                  const float invalid)
+{
+
+  if(NULL == buffer || NULL == data) { return RUUVI_ENDPOINT_ERROR_NULL; }
+  
+  buffer[APP_ENDPOINT_AC_OFFSET_HEADER]  = APP_ENDPOINT_AC_DESTINATION;
+  buffer[APP_ENDPOINT_AC_OFFSET_VERSION] = 1;
+
+  encode_value(&(buffer[APP_ENDPOINT_AC_OFFSET_P2P_X_MSB]),
+                      data->p2p[APP_ENDPOINT_AC_X_INDEX],
+                      invalid);
+  encode_value(&(buffer[APP_ENDPOINT_AC_OFFSET_P2P_Y_MSB]),
+                      data->p2p[APP_ENDPOINT_AC_Y_INDEX],
+                      invalid);
+  encode_value(&(buffer[APP_ENDPOINT_AC_OFFSET_P2P_Z_MSB]),
+                      data->p2p[APP_ENDPOINT_AC_Z_INDEX],
+                      invalid);
+
+  encode_value(&(buffer[APP_ENDPOINT_AC_OFFSET_RMS_X_MSB]),
+                      data->rms[APP_ENDPOINT_AC_X_INDEX],
+                      invalid);
+  encode_value(&(buffer[APP_ENDPOINT_AC_OFFSET_RMS_Y_MSB]),
+                      data->rms[APP_ENDPOINT_AC_Y_INDEX],
+                      invalid);
+  encode_value(&(buffer[APP_ENDPOINT_AC_OFFSET_RMS_Z_MSB]),
+                      data->rms[APP_ENDPOINT_AC_Z_INDEX],
+                      invalid);
+
+  encode_value(&(buffer[APP_ENDPOINT_AC_OFFSET_DEV_X_MSB]),
+                      data->dev[APP_ENDPOINT_AC_X_INDEX],
+                      invalid);
+  encode_value(&(buffer[APP_ENDPOINT_AC_OFFSET_DEV_Y_MSB]),
+                      data->dev[APP_ENDPOINT_AC_Y_INDEX],
+                      invalid);
+  encode_value(&(buffer[APP_ENDPOINT_AC_OFFSET_DEV_Z_MSB]),
+                      data->dev[APP_ENDPOINT_AC_Z_INDEX],
+                      invalid);
+
+  if(invalid == data->voltage)
+  {
+    buffer[APP_ENDPOINT_AC_OFFSET_RADIO_MSB] = 0xFF;
+  }
+  else
+  {
+    float voltage;
+    if(data->voltage > 3.600) { voltage = 3.6; }
+    else if(data->voltage < 1.600) { voltage = 1.6; }
+    else { voltage = data->voltage; }
+    // Offset by 1.6 V, multiply into millivolts, scale to 8 mV/bit.
+    buffer[APP_ENDPOINT_AC_OFFSET_RADIO_MSB] = (uint8_t)((voltage - 1.6) * 1000 / 8) ;
+  }
+  if(invalid == data->temperature)
+  {
+    buffer[APP_ENDPOINT_AC_V1_OFFSET_TEMPERATURE_MSB] = 0x80;
+  }
+  else
+  {
+    float temperature;
+    if(data->temperature > 125) { temperature = 125; }
+    else if(data->temperature < -125) { temperature = -125; }
+    else { temperature = data->temperature; }
+    buffer[APP_ENDPOINT_AC_V1_OFFSET_TEMPERATURE_MSB] = (int8_t)(temperature) ;
+  }
+
+  buffer[APP_ENDPOINT_AC_OFFSET_SEQUENCE_COUNTER_MSB] = data->sequence >> 8;
+  buffer[APP_ENDPOINT_AC_OFFSET_SEQUENCE_COUNTER_LSB] = data->sequence & 0xFF;
+
+  return RUUVI_DRIVER_SUCCESS;
 }
