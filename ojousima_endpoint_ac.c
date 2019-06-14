@@ -66,7 +66,7 @@ ruuvi_endpoint_status_t app_endpoint_ac_encode_v0(uint8_t* const buffer,
   buffer[APP_ENDPOINT_AC_OFFSET_SEQUENCE_COUNTER_MSB] = data->sequence >> 8;
   buffer[APP_ENDPOINT_AC_OFFSET_SEQUENCE_COUNTER_LSB] = data->sequence & 0xFF;
 
-  return RUUVI_DRIVER_SUCCESS;
+  return RUUVI_ENDPOINT_SUCCESS;
 }
 
 ruuvi_endpoint_status_t app_endpoint_ac_encode_v1(uint8_t* const buffer,
@@ -138,5 +138,5 @@ ruuvi_endpoint_status_t app_endpoint_ac_encode_v1(uint8_t* const buffer,
   buffer[APP_ENDPOINT_AC_OFFSET_SEQUENCE_COUNTER_MSB] = data->sequence >> 8;
   buffer[APP_ENDPOINT_AC_OFFSET_SEQUENCE_COUNTER_LSB] = data->sequence & 0xFF;
 
-  return RUUVI_DRIVER_SUCCESS;
+  return RUUVI_ENDPOINT_SUCCESS;
 }
