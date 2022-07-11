@@ -13,11 +13,11 @@
 #include <string.h>
 #include <math.h>
 
-ruuvi_endpoint_status_t app_endpoint_ba_encode(uint8_t* const buffer,
+re_status_t app_endpoint_ba_encode(uint8_t* const buffer,
                                                const app_endpoint_ba_data_t* data,
                                                const float invalid)
 {
-  if(NULL == buffer  || NULL == data) { return RUUVI_ENDPOINT_ERROR_NULL; }
+  if(NULL == buffer  || NULL == data) { return RE_ERROR_NULL; }
 
   buffer[APP_ENDPOINT_BA_OFFSET_HEADER]  = APP_ENDPOINT_BA_DESTINATION;
   buffer[APP_ENDPOINT_BA_OFFSET_VERSION] = APP_ENDPOINT_BA_VERSION;
@@ -72,5 +72,5 @@ ruuvi_endpoint_status_t app_endpoint_ba_encode(uint8_t* const buffer,
   buffer[APP_ENDPOINT_BA_OFFSET_SEQUENCE_COUNTER_MSB] = (data->measurement_count >> 8);
   buffer[APP_ENDPOINT_BA_OFFSET_SEQUENCE_COUNTER_LSB] = (data->measurement_count & 0xFF);
 
-  return RUUVI_ENDPOINT_SUCCESS;
+  return RE_SUCCESS;
 }

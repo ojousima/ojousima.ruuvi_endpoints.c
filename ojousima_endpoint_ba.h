@@ -49,7 +49,7 @@ typedef struct{
  *                 encoding the data into buffer
  * parameter invalid: A float which signals that given data point is invalid.
  */
-ruuvi_endpoint_status_t app_endpoint_ba_encode(uint8_t* const buffer,
+re_status_t app_endpoint_ba_encode(uint8_t* const buffer,
                                                const app_endpoint_ba_data_t* data,
                                                const float invalid);
 

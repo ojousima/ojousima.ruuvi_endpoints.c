@@ -1,8 +1,7 @@
 /**
  * @file ojousima_endpoint_ac.h
  * @author Otso Jousimaa
- * @date 2019-01-25
- * @brief Function for finding peak to peak amplitude of a signal sample.
+ * @date 2022-07-11
  * @copyright Copyright 2019 Ruuvi Innovations.
  *   This project is released under the BSD-3-Clause License.
  *
@@ -21,6 +20,34 @@
 #define APP_ENDPOINT_AC_DESTINATION                 0xAC
 #define APP_ENDPOINT_AC_DATA_LENGTH                 24
 
+// Version 0, 1
+#define APP_ENDPOINT_AC_OFFSET_HEADER               0
+#define APP_ENDPOINT_AC_OFFSET_VERSION              1
+#define APP_ENDPOINT_AC_OFFSET_P2P_X_MSB            2
+#define APP_ENDPOINT_AC_OFFSET_P2P_X_LSB            3
+#define APP_ENDPOINT_AC_OFFSET_P2P_Y_MSB            4
+#define APP_ENDPOINT_AC_OFFSET_P2P_Y_LSB            5
+#define APP_ENDPOINT_AC_OFFSET_P2P_Z_MSB            6
+#define APP_ENDPOINT_AC_OFFSET_P2P_Z_LSB            7
+#define APP_ENDPOINT_AC_OFFSET_RMS_X_MSB            8
+#define APP_ENDPOINT_AC_OFFSET_RMS_X_LSB            9
+#define APP_ENDPOINT_AC_OFFSET_RMS_Y_MSB            10
+#define APP_ENDPOINT_AC_OFFSET_RMS_Y_LSB            11
+#define APP_ENDPOINT_AC_OFFSET_RMS_Z_MSB            12
+#define APP_ENDPOINT_AC_OFFSET_RMS_Z_LSB            13
+#define APP_ENDPOINT_AC_OFFSET_DEV_X_MSB            14
+#define APP_ENDPOINT_AC_OFFSET_DEV_X_LSB            15
+#define APP_ENDPOINT_AC_OFFSET_DEV_Y_MSB            16
+#define APP_ENDPOINT_AC_OFFSET_DEV_Y_LSB            17
+#define APP_ENDPOINT_AC_OFFSET_DEV_Z_MSB            18
+#define APP_ENDPOINT_AC_OFFSET_DEV_Z_LSB            19
+#define APP_ENDPOINT_AC_OFFSET_RADIO_MSB            20
+#define APP_ENDPOINT_AC_OFFSET_RADIO_LSB            21
+#define APP_ENDPOINT_AC_V1_OFFSET_TEMPERATURE_MSB   21
+#define APP_ENDPOINT_AC_OFFSET_SEQUENCE_COUNTER_MSB 22
+#define APP_ENDPOINT_AC_OFFSET_SEQUENCE_COUNTER_LSB 23
+
+// Version 2
 #define APP_ENDPOINT_AC_OFFSET_HEADER               0
 #define APP_ENDPOINT_AC_OFFSET_VERSION              1
 #define APP_ENDPOINT_AC_OFFSET_P2P_X_MSB            2
@@ -71,7 +98,7 @@ typedef struct{
  * @param[in]  invalid: A float which signals that given data point is invalid.
  * @return @c RUUVI_ENDPOINT_SUCCESS on success. @c RUUVI_ENDPOINT_ERROR_NULL if null parameter was given.
  */
-ruuvi_endpoint_status_t app_endpoint_ac_encode_v0(uint8_t* const buffer,
+re_status_t app_endpoint_ac_encode_v0(uint8_t* const buffer,
                                                   const app_endpoint_ac_data_t* data,
                                                   const float invalid);
 
@@ -86,9 +113,12 @@ ruuvi_endpoint_status_t app_endpoint_ac_encode_v0(uint8_t* const buffer,
  * @param[in]  invalid: A float which signals that given data point is invalid.
  * @return @c RUUVI_ENDPOINT_SUCCESS on success. @c RUUVI_ENDPOINT_ERROR_NULL if null parameter was given.
  */
-ruuvi_endpoint_status_t app_endpoint_ac_encode_v1(uint8_t* const buffer,
+re_status_t app_endpoint_ac_encode_v1(uint8_t* const buffer,
                                                   const app_endpoint_ac_data_t* data,
                                                   const float invalid);
+
+re_status_t app_endpoint_ac_encode_v2(uint8_t* const buffer,
+                                                  const app_endpoint_ac_data_t* data);;
 
 
 /** @} */ // End of group analysis
