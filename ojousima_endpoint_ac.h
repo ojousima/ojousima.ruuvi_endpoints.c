@@ -118,7 +118,7 @@ re_status_t app_endpoint_ac_encode_v1(uint8_t* const buffer,
                                                   const float invalid);
 
 re_status_t app_endpoint_ac_encode_v2(uint8_t* const buffer,
-                                                  const app_endpoint_ac_data_t* data);;
+                                                  const app_endpoint_ac_data_t* data);
 
 
 /** @} */ // End of group analysis
