@@ -11,9 +11,9 @@
 #include "ojousima_endpoint_af.h"
 #include "ruuvi_endpoints.h"
 
-static uint8_t clip_in_bucket (const float value, const float scale)
+static uint8_t clip_in_bucket (const float value)
 {
-  float scaled = value * scale;
+  float scaled = value  * 254.0f;
   uint8_t rvalue = 0;
   if(isnan(scaled))
   {
@@ -47,7 +47,7 @@ re_status_t app_endpoint_af_encode_v0(uint8_t* const buffer,
   buffer[APP_ENDPOINT_AF_OFFSET_FREQ_LSB] = data->frequency & (0xFFU);
   for(size_t ii = 0; ii < 16; ii++)
   {
-    buffer[APP_ENDPOINT_AF_OFFSET_BUCKET_1 + ii] = clip_in_bucket(data->buckets[ii], data->scale);
+    buffer[APP_ENDPOINT_AF_OFFSET_BUCKET_1 + ii] = clip_in_bucket(data->buckets[ii]);
   }
 
   return RE_SUCCESS;
