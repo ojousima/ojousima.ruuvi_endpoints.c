@@ -50,12 +50,22 @@
 #define APP_ENDPOINT_AF_OFFSET_BUCKET_14            (20U)
 #define APP_ENDPOINT_AF_OFFSET_BUCKET_15            (21U) 
 #define APP_ENDPOINT_AF_OFFSET_BUCKET_16            (22U)
+#define APP_ENDPOINT_AF_OFFSET_SEQUENCE             (23U)
+
+// 8 bits, 0xFF reserved for error value. Float for scaling.
+#define APP_ENDPOINT_AF_RESOLUTION_LEVELS           (254.0f)
+#define APP_ENDPOINT_AF_ERROR_VALUE                         (0xFF)
+#define APP_ENDPOINT_AF_X_TYPE                                   (0U)
+#define APP_ENDPOINT_AF_Y_TYPE                                   (1U)
+#define APP_ENDPOINT_AF_Z_TYPE                                   (2U)
+#define APP_ENDPOINT_AF_NUM_BUCKETS                     (16U)
 
 typedef struct{
-  float buckets[16];
+  float buckets[APP_ENDPOINT_AF_NUM_BUCKETS];
   uint16_t frequency;
   float scale;
   uint8_t type;
+  uint8_t sequence;
 }app_endpoint_af_data_t;
 
 /**
