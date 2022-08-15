@@ -172,7 +172,7 @@ re_status_t app_endpoint_ac_encode_v2(uint8_t* const buffer,
 
   if(isnan(data->voltage))
   {
-    buffer[APP_ENDPOINT_AC_OFFSET_RADIO_MSB] = 0xFF;
+    buffer[APP_ENDPOINT_AC_V2_OFFSET_VOLTAGE_MSB] = 0xFF;
   }
   else
   {
@@ -181,7 +181,7 @@ re_status_t app_endpoint_ac_encode_v2(uint8_t* const buffer,
     else if(data->voltage < 1.600) { voltage = 1.6; }
     else { voltage = data->voltage; }
     // Offset by 1.6 V, multiply into millivolts, scale to 8 mV/bit.
-    buffer[APP_ENDPOINT_AC_OFFSET_RADIO_MSB] = (uint8_t)((voltage - 1.6) * 1000 / 8) ;
+    buffer[APP_ENDPOINT_AC_V2_OFFSET_VOLTAGE_MSB] = (uint8_t)((voltage - 1.6) * 1000 / 8) ;
   }
   if(isnan(data->temperature))
   {
@@ -193,7 +193,7 @@ re_status_t app_endpoint_ac_encode_v2(uint8_t* const buffer,
     if(data->temperature > 125) { temperature = 125; }
     else if(data->temperature < -125) { temperature = -125; }
     else { temperature = data->temperature; }
-    buffer[APP_ENDPOINT_AC_V1_OFFSET_TEMPERATURE_MSB] = (int8_t)(temperature) ;
+    buffer[APP_ENDPOINT_AC_V2_OFFSET_TEMPERATURE_MSB] = (int8_t)(temperature);
   }
 
   buffer[APP_ENDPOINT_AC_OFFSET_SEQUENCE_COUNTER_MSB] = data->sequence >> 8;
