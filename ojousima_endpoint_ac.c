@@ -147,37 +147,27 @@ re_status_t app_endpoint_ac_encode_v2(uint8_t* const buffer,
 
   if(NULL == buffer || NULL == data) { return RE_ERROR_NULL; }
   
-  buffer[APP_ENDPOINT_AC_OFFSET_HEADER]  = APP_ENDPOINT_AC_DESTINATION;
-  buffer[APP_ENDPOINT_AC_OFFSET_VERSION] = 1;
+  buffer[APP_ENDPOINT_AC_V2_OFFSET_HEADER]  = APP_ENDPOINT_AC_DESTINATION;
+  buffer[APP_ENDPOINT_AC_V2_OFFSET_VERSION] = APP_ENDPOINT_AC_V2_VERSION;
 
-  encode_value(&(buffer[APP_ENDPOINT_AC_OFFSET_P2P_X_MSB]),
+  encode_value(&(buffer[APP_ENDPOINT_AC_V2_OFFSET_P2P_X_MSB]),
                       data->p2p[APP_ENDPOINT_AC_X_INDEX],
                       NAN);
-  encode_value(&(buffer[APP_ENDPOINT_AC_OFFSET_P2P_Y_MSB]),
+  encode_value(&(buffer[APP_ENDPOINT_AC_V2_OFFSET_P2P_Y_MSB]),
                       data->p2p[APP_ENDPOINT_AC_Y_INDEX],
                       NAN);
-  encode_value(&(buffer[APP_ENDPOINT_AC_OFFSET_P2P_Z_MSB]),
+  encode_value(&(buffer[APP_ENDPOINT_AC_V2_OFFSET_P2P_Z_MSB]),
                       data->p2p[APP_ENDPOINT_AC_Z_INDEX],
                       NAN);
 
-  encode_value(&(buffer[APP_ENDPOINT_AC_OFFSET_RMS_X_MSB]),
+  encode_value(&(buffer[APP_ENDPOINT_AC_V2_OFFSET_RMS_X_MSB]),
                       data->rms[APP_ENDPOINT_AC_X_INDEX],
                       NAN);
-  encode_value(&(buffer[APP_ENDPOINT_AC_OFFSET_RMS_Y_MSB]),
+  encode_value(&(buffer[APP_ENDPOINT_AC_V2_OFFSET_RMS_Y_MSB]),
                       data->rms[APP_ENDPOINT_AC_Y_INDEX],
                       NAN);
-  encode_value(&(buffer[APP_ENDPOINT_AC_OFFSET_RMS_Z_MSB]),
+  encode_value(&(buffer[APP_ENDPOINT_AC_V2_OFFSET_RMS_Z_MSB]),
                       data->rms[APP_ENDPOINT_AC_Z_INDEX],
-                      NAN);
-
-  encode_value(&(buffer[APP_ENDPOINT_AC_OFFSET_DEV_X_MSB]),
-                      data->dev[APP_ENDPOINT_AC_X_INDEX],
-                      NAN);
-  encode_value(&(buffer[APP_ENDPOINT_AC_OFFSET_DEV_Y_MSB]),
-                      data->dev[APP_ENDPOINT_AC_Y_INDEX],
-                      NAN);
-  encode_value(&(buffer[APP_ENDPOINT_AC_OFFSET_DEV_Z_MSB]),
-                      data->dev[APP_ENDPOINT_AC_Z_INDEX],
                       NAN);
 
   if(isnan(data->voltage))
